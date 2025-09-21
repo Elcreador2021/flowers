@@ -5,95 +5,17 @@
   <title>Ramo 3D de Tulipanes Amarillos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    html, body { height: 100%; margin: 0; background: #faf3d7;}
-    body { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    #canvas3d { width: 96vw; height: 86vh; background: linear-gradient(#fffce0 40%, #ffd54f 100%);}
-    .mensaje {text-align: center; font-size: 1.4rem; color: #b78900; margin-top: 1.2em; font-weight: 600;}
+    body {background: #fbf7dd; margin:0; display:flex; flex-direction:column; align-items:center;}
+    .mensaje {margin: 1em; font-size:1.4em; color:#b78900; font-weight:bold;}
+    .sketchfab {width: 98vw; height:76vh; border:none; border-radius:16px;box-shadow:0 2px 24px #aaa;}
   </style>
 </head>
 <body>
   <div class="mensaje">Para mis mejores amigas Fabiola y Belén 🌷✨</div>
-  <canvas id="canvas3d"></canvas>
-  <!-- Three.js desde CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/controls/OrbitControls.js"></script>
-  <script>
-    const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('canvas3d'), antialias: true, alpha: true});
-    function resize(){
-      renderer.setSize(window.innerWidth*0.96, window.innerHeight*0.82);
-      camera.aspect = (window.innerWidth*0.96)/(window.innerHeight*0.82);
-      camera.updateProjectionMatrix();
-    }
-    const scene = new THREE.Scene();
-    scene.background = null;
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    camera.position.set(0, 2, 7);
-    scene.add(new THREE.AmbientLight(0xffffcc, 1.3));
-    const dLight = new THREE.DirectionalLight(0xffe050, 1.3);
-    dLight.position.set(-3,6,3);
-    scene.add(dLight);
-    const controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
-    controls.target.set(0, 2, 0);
-    controls.enablePan = false;
-    function crearTulipan(x, z, color){
-      let ramgeo = new THREE.CylinderGeometry(0.11, 0.14, 2.2, 10);
-      let rammat = new THREE.MeshLambertMaterial({color: 0x36b152});
-      let tallo = new THREE.Mesh(ramgeo, rammat);
-      tallo.position.set(x, 1.1, z);
-      let petalmat = new THREE.MeshLambertMaterial({ color, emissive: color, emissiveIntensity: 0.22, side: THREE.DoubleSide });
-      let petal = new THREE.ConeGeometry(0.3, 0.8, 10, 1, true);
-      let grupoPetalos = new THREE.Group();
-      for(let ang of [0, 120, 240]){
-        let mesh = new THREE.Mesh(petal, petalmat);
-        mesh.position.y = 2.2;
-        mesh.rotation.y = THREE.Math.degToRad(ang);
-        mesh.rotation.x = -0.24;
-        grupoPetalos.add(mesh);
-      }
-      grupoPetalos.position.set(x,0,z);
-      let centro = new THREE.Mesh(
-        new THREE.SphereGeometry(0.22,16,10),
-        new THREE.MeshLambertMaterial({color:0xfff7c5})
-      );
-      centro.position.set(0,2.55,0);
-      let tulipan = new THREE.Group();
-      tulipan.add(tallo, grupoPetalos, centro);
-      let hojaGeo = new THREE.CylinderGeometry(0, 0.16, 1.25, 12, 1);
-      let hoja = new THREE.Mesh(hojaGeo, new THREE.MeshLambertMaterial({color:0xa2ea3f}));
-      hoja.position.set(x + 0.22, 0.65, z);
-      hoja.rotation.z = -1.13;
-      hoja.rotation.x = 0.7;
-      tulipan.add(hoja);
-      return tulipan;
-    }
-    const colores = [0xffe400, 0xffea62, 0xffef95, 0xffe247, 0xffd000, 0xffe887];
-    for(let i=0;i<6;i++){
-      let ang = (i/6) * Math.PI*2, r = 0.85 + 0.23*Math.sin(i*1.7);
-      let x = Math.cos(ang)*r, z = Math.sin(ang)*r;
-      let color = colores[i%colores.length];
-      scene.add(crearTulipan(x, z, color));
-    }
-    let vaso = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.77, 0.55, 1.15, 28),
-      new THREE.MeshPhysicalMaterial({color:0xd0c4ca, metalness:0.21, roughness:0.3, transparent:true, opacity:0.77})
-    );
-    vaso.position.y = 0.55;
-    scene.add(vaso);
-    function animate(time){
-      controls.update();
-      scene.traverse(obj=>{
-        if(obj.isMesh && obj.geometry.type == "ConeGeometry"){ 
-          obj.rotation.x = -0.22 + 0.10*Math.sin(time/600 + obj.id);
-          obj.position.y = 2.18 + 0.07*Math.sin(time/880 + obj.id);
-        }
-      });
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    }
-    animate(0);
-    window.addEventListener('resize', resize);
-    resize();
-  </script>
+  <iframe title="Ramo 3D"
+    class="sketchfab"
+    src="https://sketchfab.com/models/48e92013548247a9ad486dc13110c9b4/embed"
+    allowfullscreen>
+  </iframe>
 </body>
 </html>
